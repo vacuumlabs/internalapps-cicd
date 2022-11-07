@@ -26,10 +26,10 @@ permissions:
   id-token: write
 
 jobs:
-  deploy_to_stage:
+  deploy_to_env:
     runs-on: ubuntu-latest
     steps:
-      - name: Google Auth from the pipeline staging
+      - name: Google Auth from the pipeline
         id: auth
         uses: "google-github-actions/auth@v0"
         with:
@@ -37,7 +37,7 @@ jobs:
           workload_identity_provider: ${{ secrets.WIF_PROVIDER}}
           service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
 
-      - name: Docker Auth to Google Cloud Artifact Registry staging
+      - name: Docker Auth to Google Cloud Artifact Registry
         id: docker-auth
         uses: "docker/login-action@v2"
         with:
@@ -45,7 +45,7 @@ jobs:
           password: "${{ steps.auth.outputs.access_token }}"
           registry: "${{ inputs.REGION }}-docker.pkg.dev"
 
-      - name: Deploy to Cloud Run staging
+      - name: Deploy to Cloud Run
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v0
         with:
