@@ -49,5 +49,5 @@ jobs:
       - name: Build and Push docker image
         run: |-
           DOCKER_IMAGE_NAME="${{ inputs.REGION }}-docker.pkg.dev/${{ inputs.PROJECT_ID_ARTIFACT_REGISTRY }}/${{ inputs.SERVICE }}"
-          docker build -t "$DOCKER_IMAGE_NAME:${{ github.sha }}" -t "$DOCKER_IMAGE_NAME:latest" ./
+          DOCKER_BUILDKIT=1 docker build -t "$DOCKER_IMAGE_NAME:${{ github.sha }}" -t "$DOCKER_IMAGE_NAME:latest" ./
           docker push "$DOCKER_IMAGE_NAME" --all-tags
